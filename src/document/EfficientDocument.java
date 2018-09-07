@@ -1,5 +1,6 @@
 package document;
 
+import java.util.Arrays;
 import java.util.List;
 
 /** 
@@ -33,8 +34,6 @@ public class EfficientDocument extends Document {
 	 */
 	private boolean isWord(String tok)
 	{
-	    // Note: This is a fast way of checking whether a string is a word
-	    // You probably don't want to change it.
 		return !(tok.indexOf("!") >=0 || tok.indexOf(".") >=0 || tok.indexOf("?")>=0);
 	}
 	
@@ -48,12 +47,22 @@ public class EfficientDocument extends Document {
 		// Call getTokens on the text to preserve separate strings that are 
 		// either words or sentence-ending punctuation.  Ignore everything
 		// That is not a word or a sentence-ending puctuation.
-		// MAKE SURE YOU UNDERSTAND THIS LINE BEFORE YOU CODE THE REST
-		// OF THIS METHOD.
 		List<String> tokens = getTokens("[!?.]+|[a-zA-Z]+");
 		
-		// TODO: Finish this method.  Remember the countSyllables method from 
-		// Document.  That will come in handy here.  isWord defined above will also help.
+		for(int i= 0;i<tokens.size();i++) {
+			String token = tokens.get(i);
+			if(this.isWord(token)) {
+				this.numWords++;
+			}else {
+				this.numSentences++;
+			}
+			this.numSyllables += this.countSyllables(token);
+			
+			//last contiguous set of characters in the document, even if they don't end with a punctuation mark is a sentence
+			if(i == tokens.size()-1 && this.isWord(token)) {
+				this.numSentences++;
+			}
+		}
 	}
 
 	
@@ -72,8 +81,7 @@ public class EfficientDocument extends Document {
 	 */
 	@Override
 	public int getNumSentences() {
-		//TODO: write this method.  Hint: It's simple
-		return 0;
+		return this.numSentences;
 	}
 
 	
@@ -94,7 +102,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumWords() {
 		//TODO: write this method.  Hint: It's simple
-	    return 0;
+	    return this.numWords;
 	}
 
 
@@ -116,7 +124,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumSyllables() {
         //TODO: write this method.  Hint: It's simple
-        return 0;
+        return this.numSyllables;
 	}
 	
 	// Can be used for testing

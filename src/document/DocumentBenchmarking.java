@@ -37,28 +37,47 @@ public class DocumentBenchmarking {
 		// TODO: Fill in the rest of this method so that it runs two loops
 		// and prints out timing results as described in the assignment 
 		// instructions and following the pseudocode below.
-		for (int numToCheck = start; numToCheck < numSteps*increment + start; 
-				numToCheck += increment)
+		System.out.println("NumberofChars\tBasicTime\tEfficientTime");
+		for (int numToCheck = start; numToCheck < numSteps*increment + start; numToCheck += increment)
 		{
 			// numToCheck holds the number of characters that you should read from the 
 			// file to create both a BasicDocument and an EfficientDocument.  
 			
 			/* Each time through this loop you should:
-			 * 1. Print out numToCheck followed by a tab (\t) (NOT a newline)
-			 * 2. Read numToCheck characters from the file into a String
+			 * 1. Print out numToCheck followed by a tab (\t) (NOT a newline)*/
+			System.out.print(numToCheck+"\t");
+			 /* 2. Read numToCheck characters from the file into a String
 			 *     Hint: use the helper method below.
+			 */
+				String data = getStringFromFile(textfile,numToCheck);
+			/*
 			 * 3. Time a loop that runs trials times (trials is the variable above) that:
 			 *     a. Creates a BasicDocument 
-			 *     b. Calls fleshScore on this document
+			 *     b. Calls fleshScore on this document*/
+			long startTime = System.nanoTime();
+			for(int i = 0;i<=trials;i++) {
+				Document document = new BasicDocument(data);
+				document.getFleschScore();
+			}
+			long endTime = System.nanoTime();
+			/*
 			 * 4. Print out the time it took to complete the loop in step 3 
-			 *      (on the same line as the first print statement) followed by a tab (\t)
-			 * 5. Time a loop that runs trials times (trials is the variable above) that:
+			 *      (on the same line as the first print statement) followed by a tab (\t)*/
+			System.out.print(timeTakenInSeconds(startTime, endTime)+"\t");
+			 /* 5. Time a loop that runs trials times (trials is the variable above) that:
 			 *     a. Creates an EfficientDocument 
-			 *     b. Calls fleshScore on this document
-			 * 6. Print out the time it took to complete the loop in step 5 
+			 *     b. Calls fleshScore on this document*/
+			 startTime = System.nanoTime();
+			for(int i = 0;i<=trials;i++) {
+				Document document = new EfficientDocument(data);
+				document.getFleschScore();
+			}
+			 endTime = System.nanoTime();
+			 /* 6. Print out the time it took to complete the loop in step 5 
 			 *      (on the same line as the first print statement) followed by a newline (\n) 
 			 */  
-			 
+			 System.out.print(timeTakenInSeconds(startTime, endTime));
+			 System.out.println();
 		}
 	
 	}
@@ -95,6 +114,10 @@ public class DocumentBenchmarking {
 		
 		
 		return s.toString();
+	}
+	
+	public static double timeTakenInSeconds(long startTime,long endTime) {
+		return (endTime-startTime)/1000000000.0;
 	}
 	
 }
