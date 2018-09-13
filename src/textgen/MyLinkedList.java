@@ -40,6 +40,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		
 		tail.getPrev().setNext(node);
 		tail.setPrev(node);
+		
 		this.size++;
 		return true;
 	}
@@ -75,12 +76,18 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		LLNode<E> start = this.head;
 		
 		while(i <= index) {
-			start = start.getNext();
-			toBeAdded.setNext(start);
-			toBeAdded.setPrev(start.getPrev());
 			
-			start.getPrev().setNext(toBeAdded);
-			start.setPrev(toBeAdded);
+			start = start.getNext();
+			
+			if(i == index) {
+				toBeAdded.setNext(start);
+				toBeAdded.setPrev(start.getPrev());
+				
+				start.getPrev().setNext(toBeAdded);
+				start.setPrev(toBeAdded);
+				this.size++;
+				break;
+			}
 			i++;
 			
 		}
@@ -104,16 +111,26 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public E remove(int index) 
 	{
 		// TODO: Implement this method
+		if(index > this.size-1 || index < 0) {
+			throw new IndexOutOfBoundsException();
+		}
+		
 		int i = 0;
 		LLNode<E> start = this.head;
 		
 		while(i <= index) {
 			start = start.getNext();
-			start.getNext().setPrev(start.getPrev());
-			start.getPrev().setNext(start.getNext());
+			if(i == index) {
+				start.getNext().setPrev(start.getPrev());
+				start.getPrev().setNext(start.getNext());
+				this.size--;
+				break;
+			}
+			
 			i++;
 			
 		}
+		
 		return start.getData();
 	}
 
