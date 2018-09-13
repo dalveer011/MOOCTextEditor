@@ -144,7 +144,24 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public E set(int index, E element) 
 	{
 		// TODO: Implement this method
-		return null;
+		if(index > this.size-1 || index < 0) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		int i = 0;
+		E valueToBeReturned = null;
+		LLNode<E> start = this.head;
+		
+		while(i <= index) {
+			start = start.getNext();
+			if(i == index) {
+				valueToBeReturned = start.getData();
+				start.setData(element);
+				break;
+			}
+		}
+		
+		return valueToBeReturned;
 	}   
 }
 
