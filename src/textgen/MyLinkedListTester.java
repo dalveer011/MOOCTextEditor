@@ -5,8 +5,6 @@ package textgen;
 
 import static org.junit.Assert.*;
 
-import java.util.LinkedList;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -115,6 +113,7 @@ public class MyLinkedListTester {
 		assertEquals("Remove: check size is correct ", 2, list1.size());
 		
 		// TODO: Add more tests here
+		assertEquals("Check First elements previous pointer is to head",list1.head,list1.head.next.prev);
 	}
 	
 	/** Test adding an element into the end of the list, specifically
@@ -124,6 +123,14 @@ public class MyLinkedListTester {
 	public void testAddEnd()
 	{
         // TODO: implement this test
+		try {
+			list1.add(null);
+			fail("Check NullPointerException failed");
+		}catch(NullPointerException ex) {
+			
+		}
+		list1.add(23);
+		assertEquals("Add End: Check last element as 23",(Integer)23,list1.get(list1.size()-1));
 		
 	}
 
@@ -132,7 +139,10 @@ public class MyLinkedListTester {
 	@Test
 	public void testSize()
 	{
-		// TODO: implement this test
+		assertEquals("Size: check size of empty list",0,emptyList.size());
+		assertEquals("Size : check size of short list",2,shortList.size());
+		shortList.remove(0);
+		assertEquals("Size: after removing one element check size of short list",1,shortList.size());
 	}
 
 	
@@ -145,6 +155,18 @@ public class MyLinkedListTester {
 	public void testAddAtIndex()
 	{
         // TODO: implement this test
+		try {
+			list1.add(2,null);
+			fail("failed the NullPointerException test");
+		}catch(NullPointerException ex) {
+			
+		}
+		
+		list1.add(2, 23);
+		assertEquals("Add: check element at index 2 of list1",(Integer)23,list1.get(2));
+		
+		shortList.add(2, "C");
+		assertEquals("Add: check element at index 2 of shortList","C",shortList.get(2));
 		
 	}
 	
@@ -153,6 +175,9 @@ public class MyLinkedListTester {
 	public void testSet()
 	{
 	    // TODO: implement this test
+	    int a = list1.set(0, 23);
+	    assertEquals("Set: check element got after setting list1 was 65",65,a);
+	    assertEquals("Set: check element at 0 in list1",(Integer)23,list1.get(0));
 	    
 	}
 	

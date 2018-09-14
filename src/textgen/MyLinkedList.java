@@ -2,8 +2,6 @@ package textgen;
 
 import java.util.AbstractList;
 
-import linkedlist.ListNode;
-
 
 /** A class that implements a doubly linked list
  * 
@@ -32,7 +30,9 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public boolean add(E element ) 
 	{
-		
+		if(element == null) {
+			throw new NullPointerException();
+		}
 		LLNode<E> node = new LLNode<E>(element);
 		
 		node.setNext(tail);
@@ -71,6 +71,13 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public void add(int index, E element ) 
 	{
 		// TODO: Implement this method
+		if(index < 0 || index > this.size) {
+			throw new IndexOutOfBoundsException();
+		}
+		if(element == null) {
+			throw new NullPointerException();
+		}
+		
 		int i = 0;
 		LLNode<E> toBeAdded = new LLNode<E>(element);
 		LLNode<E> start = this.head;
@@ -147,6 +154,8 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		if(index > this.size-1 || index < 0) {
 			throw new IndexOutOfBoundsException();
 		}
+		if(element == null)
+			throw new NullPointerException();
 		
 		int i = 0;
 		E valueToBeReturned = null;
